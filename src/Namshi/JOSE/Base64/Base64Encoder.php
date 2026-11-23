@@ -11,7 +11,7 @@ class Base64Encoder implements Encoder
      */
     public function encode($data)
     {
-        return base64_encode($data);
+        return base64_encode($data ?? '');
     }
 
     /**
@@ -21,6 +21,6 @@ class Base64Encoder implements Encoder
      */
     public function decode($data)
     {
-        return base64_decode($data);
+        return base64_decode($data ?? '');
     }
 }

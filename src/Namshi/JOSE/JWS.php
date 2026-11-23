@@ -104,7 +104,7 @@ class JWS extends JWT
      *
      * @param string  $jwsTokenString
      * @param bool    $allowUnsecure
-     * @param Encoder $encoder
+     * @param Encoder|null $encoder
      * @param string  $encryptionEngine
      *
      * @return JWS
@@ -172,7 +172,7 @@ class JWS extends JWT
      */
     private function getSigninInput()
     {
-        $parts = explode('.', $this->originalToken);
+        $parts = explode('.', $this->originalToken ?? '');
 
         if (count($parts) >= 2) {
             return sprintf('%s.%s', $parts[0], $parts[1]);

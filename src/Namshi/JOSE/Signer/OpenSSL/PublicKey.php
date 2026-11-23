@@ -47,21 +47,16 @@ abstract class PublicKey implements SignerInterface
     }
 
     /**
-     * Converts a string representation of a key into an OpenSSL resource.
+     * Resolves a key to an OpenSSL resource or object.
      *
-     * @param string|resource $key
+     * @param string|resource|\OpenSSLAsymmetricKey $key
      * @param string          $password
      *
-     * @return resource OpenSSL key resource
+     * @return resource|\OpenSSLAsymmetricKey
      */
     protected function getKeyResource($key, $password = null)
     {
-        if (is_resource($key)) {
-            return $key;
-        }
-
-        // PHP 8+ Support
-        if (get_class($key) === 'OpenSSLAsymmetricKey') {
+        if (is_resource($key) || $key instanceof \OpenSSLAsymmetricKey) {
             return $key;
         }
 
@@ -75,7 +70,7 @@ abstract class PublicKey implements SignerInterface
     /**
      * Check if the key is supported by this signer.
      *
-     * @param resource $key Public or private key
+     * @param resource|\OpenSSLAsymmetricKey $key Public or private key
      *
      * @return bool
      */

@@ -29,7 +29,7 @@
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
-        "php": ">=5.5",
+        "php": ">=7.1",
         "symfony/polyfill-php56": "^1.0"
     },
     "require-dev": {
