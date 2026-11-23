@@ -24,19 +24,32 @@ implementation of the JWS
 
 ## Prerequisites
 
-This library needs PHP 5.5+ and the library OpenSSL.
+The fork requires PHP 7.1 or newer. RSA signing and verification use the
+OpenSSL extension. The library runs independently of Yii and PSR-7.
 
-It has been tested using `PHP5.5` to `PHP7.0` and `HHVM`.
+Focused compatibility checks for `7.2.6` passed on PHP 8.5.13, 7.4.33, and
+7.3.14. PHP 7.1 is the minimum required by the nullable parameter syntax.
 
 
 ## Installation
 
-You can install the library directly from
-composer / [packagist](https://packagist.org/packages/namshi/jose):
+Add the fork as a VCS repository in your application's root `composer.json`
+and require `namshi/jose` at exactly `7.2.6`. Composer derives the package
+version from the Git tag. See the [WEB integration guide](INTEGRACAO-WEB.md)
+for the configuration, lockfile checks, and an HS256 example.
 
-```
-"namshi/jose": "7.0.*"
-```
+## PHP 8.5 compatibility in 7.2.6
+
+- `JWS::load()` explicitly declares `?Encoder $encoder = null`, keeping
+  automatic encoder selection and support for a caller-supplied encoder.
+- The built-in Base64 encoders and JWS handle absent signatures and original
+  token data without passing null to PHP string functions.
+- RSA accepts PEM strings and OpenSSL key objects on PHP 8.5.
+- The HS256 compact tokens matched upstream `7.2.3` byte for byte with fixed
+  `iat`, accented text, and expiration claims. Both versions verified each
+  other's tokens. The default rejection of `alg: none` remains in effect.
+
+Release commit: `1532bb8ed0786671fab1e0026af4c88a544dc64e`.
 
 ## Usage
 
@@ -204,7 +217,8 @@ Moved phpseclib and the openssl extension as suggested dependencies.
 
 ## Tests
 
-Tests are written using PHPUnit for this library. After doing composer install you can execute the following command to run tests:
+The historical PHPUnit suite can be run in a compatible environment after
+installing the development dependencies:
 
 ```
 ./vendor/bin/phpunit
